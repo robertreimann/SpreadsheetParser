@@ -20,7 +20,7 @@ public class main {
             file.createNewFile();
             fos.write(b);
         }
-
+        
         File file = new File("content.xml");
         SAXReader saxReader = new SAXReader();
         Document document = saxReader.read(file);
@@ -35,13 +35,11 @@ public class main {
             List<Element> elemendid = list.stream().flatMap(element -> element.elements().stream()).collect(Collectors.toList());
             for (int i = 0; i < elemendid.size(); i++) {
                 List<Element> a = elemendid.get(i).elements();
-                for (Element element : a) {
-                    System.out.print(element.getStringValue() + "\t");
-                }
+                a.stream().map(element -> element.getStringValue() + "\t").forEach(System.out::print);
                 System.out.println();
             }
         } else {
-            for (Element element : list) findTable(element.elements());
+            list.stream().map(Element::elements).forEach(main::findTable);
         }
     }
 }
